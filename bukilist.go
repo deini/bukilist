@@ -2,6 +2,7 @@ package main
 
 import (
     "encoding/json"
+    "flag"
     _ "github.com/go-sql-driver/mysql"
     "github.com/gorilla/mux"
     "github.com/jinzhu/gorm"
@@ -11,6 +12,7 @@ import (
     "time"
 )
 
+var port = flag.String("port", "3000", "Port to use")
 var db, err = gorm.Open("mysql", "root:@/bukilist?charset=utf8&parseTime=True")
 
 type Bukiwish struct {
@@ -85,7 +87,6 @@ func main() {
     }
 
     db.DB()
-    db.CreateTable(Bukiwish{})
     db.AutoMigrate(Bukiwish{})
 
     rtr := mux.NewRouter()
@@ -98,6 +99,7 @@ func main() {
     rtr.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
     http.Handle("/", rtr)
 
-    log.Println("Listening...")
-    http.ListenAndServe(":3000", nil)
+    flag.Parse()
+    log.Println("What happens on port " + *port + " stays on port " + *port)
+    panic(http.ListenAndServe(":"+*port, nil))
 }
