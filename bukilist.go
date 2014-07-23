@@ -26,10 +26,10 @@ type Bukiwish struct {
     CreatedAt   time.Time
 }
 
-func newBukiwish(w http.ResponseWriter, r *http.Request) { //, data interface{}) {
+func newBukiwish(w http.ResponseWriter, r *http.Request) {
     var bukiwish Bukiwish
-    buf, _ := ioutil.ReadAll(r.Body)
-    json.Unmarshal(buf, &bukiwish)
+    body, _ := ioutil.ReadAll(r.Body)
+    json.Unmarshal(body, &bukiwish)
     db.Create(&bukiwish)
 }
 
@@ -49,7 +49,11 @@ func getBukiwish(w http.ResponseWriter, r *http.Request) {
     var bukiwish Bukiwish
     params := mux.Vars(r)
     id := params["id"]
-    db.Find(&bukiwish, id)
+
+    if db.Find(&bukiwish, id).RecordNotFound() {
+        http.Error(w, "Record not found", 404)
+        return
+    }
 
     response, err := json.Marshal(bukiwish)
     if err != nil {
@@ -64,10 +68,13 @@ func updateBukiwish(w http.ResponseWriter, r *http.Request) {
     params := mux.Vars(r)
     id := params["id"]
 
-    buf, _ := ioutil.ReadAll(r.Body)
-    json.Unmarshal(buf, &bukiwish)
+    body, _ := ioutil.ReadAll(r.Body)
+    json.Unmarshal(body, &bukiwish)
 
-    db.Find(&currentBukiwish, id)
+    if db.Find(&currentBukiwish, id).RecordNotFound() {
+        http.Error(w, "Record not found", 404)
+        return
+    }
     db.Model(&currentBukiwish).Updates(bukiwish)
 }
 
@@ -81,7 +88,6 @@ func deleteBukiwish(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
     if err != nil {
         panic(err.Error())
     }
