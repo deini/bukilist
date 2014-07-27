@@ -21,6 +21,7 @@ type BukiwishesService interface {
     // fail??
     CreateBukiwish() (Bukiwish, error)
     GetBukiwishes() ([]*Bukiwish, error)
+    GetBukiwish(int) (Bukiwish, error)
 }
 
 var (
@@ -39,10 +40,9 @@ func GetBukiwish(id int) (Bukiwish, error) {
 
 func GetBukiwishes() ([]*Bukiwish, error) {
     var bukiwishes []*Bukiwish
-    query := Db.Find(&bukiwishes)
 
-    if query.Error != nil {
-        return nil, query.Error
+    if err := Db.Find(&bukiwishes).Error; err != nil {
+        return nil, err
     }
 
     return bukiwishes, nil
