@@ -8,8 +8,6 @@ import (
 var Db, err = gorm.Open("mysql", "root:@/bukilist?charset=utf8&parseTime=True")
 
 func init() {
-    // Db, err := gorm.Open("mysql", "root:@/bukilist?charset=utf8&parseTime=True")
-
     if err != nil {
         panic(err.Error())
     }
