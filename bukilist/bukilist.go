@@ -2,11 +2,12 @@ package main
 
 import (
     "flag"
-    "github.com/deini/bukilist"
+    // "github.com/deini/bukilist"
     "github.com/deini/bukilist/api"
-    "github.com/deini/bukilist/datastore"
-    "github.com/deini/bukilist/router"
+    // "github.com/deini/bukilist/datastore"
+    // "github.com/deini/bukilist/router"
     // "github.com/gorilla/mux"
+    "log"
     "net/http"
 )
 
@@ -111,5 +112,5 @@ func main() {
     // m.Handle("/", app.Handler())
     flag.Parse()
     log.Println("What happens on port " + *port + " stays on port " + *port)
-    panic(hthesrcttp.ListenAndServe(":"+*port, nil))
+    panic(http.ListenAndServe(":"+*port, nil))
 }

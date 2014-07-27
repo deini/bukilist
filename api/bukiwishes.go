@@ -1,16 +1,17 @@
 package api
 
 import (
-    "encoding/json"
-    "errors"
-    "net"
+    // "encoding/json"
+    // "errors"
+    // "net"
     "net/http"
-    "net/url"
-    "strconv"
-    "strings"
+    // "net/url"
+    // "strconv"
+    // "strings"
 
-    "github.com/deini/bukilist"
-    "github.com/gorilla/mux"
+    // "github.com/deini/bukilist"
+    "github.com/deini/bukilist/datastore"
+    // "github.com/gorilla/mux"
 )
 
 // func getBukiwish(w http.ResponseWriter, r *http.Request) error {
@@ -66,12 +67,12 @@ import (
 // }
 
 func getBukiwishes(w http.ResponseWriter, r *http.Request) error {
-    bukiwishes, err := datastore.Bukiwishes.GetAll()
+    bukiwishes, err := datastore.GetBukiwishes()
     if err != nil {
         return err
     }
     if bukiwishes == nil {
-        bukiwishes = []*bukilist.Bukiwish{}
+        bukiwishes = []*datastore.Bukiwish{}
     }
 
     return writeJSON(w, bukiwishes)
