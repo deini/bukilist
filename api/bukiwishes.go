@@ -8,6 +8,8 @@ import (
     "strconv"
 )
 
+var dataInterface datastore.BukiwishService
+
 func getBukiwish(w http.ResponseWriter, r *http.Request) error {
     id, err := strconv.Atoi(mux.Vars(r)["id"])
 
@@ -15,7 +17,7 @@ func getBukiwish(w http.ResponseWriter, r *http.Request) error {
         return err
     }
 
-    bukiwish, err := datastore.GetBukiwish(id)
+    bukiwish, err := dataInterface.Get(id)
 
     if err != nil {
         return err
@@ -25,7 +27,7 @@ func getBukiwish(w http.ResponseWriter, r *http.Request) error {
 }
 
 func getBukiwishes(w http.ResponseWriter, r *http.Request) error {
-    bukiwishes, err := datastore.GetBukiwishes()
+    bukiwishes, err := dataInterface.GetAll()
     if err != nil {
         return err
     }
@@ -43,7 +45,7 @@ func createBukiwish(w http.ResponseWriter, r *http.Request) error {
         return err
     }
 
-    bukiwish, err := datastore.CreateBukiwish(body)
+    bukiwish, err := dataInterface.Create(body)
 
     if err != nil {
         return err
@@ -59,7 +61,7 @@ func deleteBukiwish(w http.ResponseWriter, r *http.Request) error {
         return err
     }
 
-    if err := datastore.DeleteBukiwish(id); err != nil {
+    if err := dataInterface.Delete(id); err != nil {
         return err
     }
 
@@ -80,7 +82,7 @@ func updateBukiwish(w http.ResponseWriter, r *http.Request) error {
         return err
     }
 
-    bukiwish, err := datastore.UpdateBukiwish(id, body)
+    bukiwish, err := dataInterface.Update(id, body)
 
     if err != nil {
         return err

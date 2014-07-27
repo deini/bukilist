@@ -6,6 +6,10 @@ import (
     "time"
 )
 
+var (
+    ErrBukiwishNotFound = errors.New("Bukiwish not found")
+)
+
 type Bukiwish struct {
     Id          int64
     Name        string `sql:"not null;unique;type:varchar(100)"`
@@ -17,79 +21,56 @@ type Bukiwish struct {
     CreatedAt   time.Time
 }
 
-type BukiwishesService interface {
-    // fail??
-    CreateBukiwish() (Bukiwish, error)
-    GetBukiwishes() ([]*Bukiwish, error)
-    GetBukiwish(int) (Bukiwish, error)
-}
+type BukiwishService struct {}
 
-var (
-    ErrBukiwishNotFound = errors.New("Bukiwish not found")
-)
-
-func GetBukiwish(id int) (Bukiwish, error) {
+func (v BukiwishService) Get(id int) (Bukiwish, error) {
     var bukiwish Bukiwish
-
     if err := Db.Find(&bukiwish, id).Error; err != nil {
         return bukiwish, ErrBukiwishNotFound
     }
-
     return bukiwish, nil
 }
 
-func GetBukiwishes() ([]*Bukiwish, error) {
+func (v BukiwishService) GetAll() ([]*Bukiwish, error) {
     var bukiwishes []*Bukiwish
-
     if err := Db.Find(&bukiwishes).Error; err != nil {
         return nil, err
     }
-
     return bukiwishes, nil
 }
 
-func CreateBukiwish(body []byte) (Bukiwish, error) {
+func (v BukiwishService) Create(body []byte) (Bukiwish, error) {
     var bukiwish Bukiwish
-
     if err := json.Unmarshal(body, &bukiwish); err != nil {
         return bukiwish, err
     }
-
     if err := Db.Create(&bukiwish).Error; err != nil {
         return bukiwish, err
     }
-
     return bukiwish, nil
 }
 
-func DeleteBukiwish(id int) error {
+func (v BukiwishService) Delete(id int) error {
     var bukiwish Bukiwish
-
     if err := Db.Find(&bukiwish, id).Error; err != nil {
         return err
     }
-
     if err := Db.Delete(&bukiwish).Error; err != nil {
         return err
     }
-
     return nil
 }
 
-func UpdateBukiwish(id int, body []byte) (Bukiwish, error) {
+func (v BukiwishService) Update(id int, body []byte) (Bukiwish, error) {
     var bukiwish, currentBukiwish Bukiwish
-
     if err := json.Unmarshal(body, &bukiwish); err != nil {
         return bukiwish, err
     }
-
     if err := Db.Find(&currentBukiwish, id).Error; err != nil {
         return bukiwish, err
     }
-
     if err := Db.Model(&currentBukiwish).Updates(bukiwish).Error; err != nil {
         return bukiwish, err
     }
-
     return currentBukiwish, nil
 }
