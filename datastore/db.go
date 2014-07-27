@@ -5,10 +5,10 @@ import (
     "github.com/jinzhu/gorm"
 )
 
-var Db
+// var Db
 
 func init() {
-    Db, err = gorm.Open("mysql", "root:@/bukilist?charset=utf8&parseTime=True")
+    Db, err := gorm.Open("mysql", "root:@/bukilist?charset=utf8&parseTime=True")
 
     if err != nil {
         panic(err.Error())
