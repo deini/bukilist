@@ -2,11 +2,10 @@ package api
 
 import (
     "fmt"
-    "log"
-    "net/http"
-
     "github.com/deini/bukilist/router"
     "github.com/gorilla/mux"
+    "log"
+    "net/http"
 )
 
 func Handler() *mux.Router {

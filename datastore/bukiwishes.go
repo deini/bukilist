@@ -1,9 +1,6 @@
 package datastore
 
 import (
-    //     // "fmt"
-    // "github.com/deini/bukilist"
-    //     "strings"
     "time"
 )
 
@@ -25,21 +22,11 @@ type BukiwishesService interface {
     // Get all bukiwishes
     // GetAll() ([]*Bukiwish, error)
     GetBukiwishes() ([]*Bukiwish, error)
-    // NewBukiwish(bukiwish *Bukiwish) (created bool, err error)
 }
 
 // var (
 //     ErrBukiwishNotFound = errors.New("Bukiwish not found")
 // )
-
-// func GetAll() ([]*Bukiwish, error) {
-//     bukiwishes, err := datastore.GetBukiwishes()
-//     if err != nil {
-//         return nil, err
-//     }
-
-//     return bukiwishes, nil
-// }
 
 func GetBukiwishes() ([]*Bukiwish, error) {
     var bukiwishes []*Bukiwish
