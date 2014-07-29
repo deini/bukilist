@@ -22,9 +22,10 @@ type handler func(http.ResponseWriter, *http.Request) error
 
 func (h handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
     err := h(w, r)
+
     if err != nil {
         w.WriteHeader(http.StatusInternalServerError)
-        fmt.Fprintf(w, "error: %s", err)
+        fmt.Fprintf(w, "Error: %s", err)
         log.Println(err)
     }
 }
