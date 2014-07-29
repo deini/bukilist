@@ -21,7 +21,7 @@ type Bukiwish struct {
     CreatedAt   time.Time
 }
 
-type BukiwishService struct {}
+type BukiwishService struct{}
 
 func (v BukiwishService) Get(id int) (Bukiwish, error) {
     var bukiwish Bukiwish

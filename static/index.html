@@ -1,9 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="app">
 <head>
-    <title>Bukilist</title>
+    <title>Bukiwishes</title>
 </head>
-<body>
+<body ng-controller="MainCtrl">
+
     <h1>Hello World</h1>
+
+    <ul>
+        <li ng-repeat="bukiwish in bukiwishes">{{ bukiwish }}</li>
+    </ul>
+    <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.0.7/angular.min.js"></script>
+    <script src="app.js"></script>
 </body>
 </html>
