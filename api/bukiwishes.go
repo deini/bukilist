@@ -16,7 +16,10 @@ func getBukiwish(w http.ResponseWriter, r *http.Request) error {
     if err != nil {
         return err
     }
-    bukiwish, err := dataInterface.Get(id)
+
+    dataService := datastore.DatabaseService{datastore.Bukiwish{}}
+    ret, err := dataService.Get(id)
+    bukiwish := ret.(datastore.Bukiwish)
 
     if err != nil {
         return err

@@ -15,3 +15,16 @@ func init() {
     Db.DB()
     Db.AutoMigrate(Bukiwish{})
 }
+
+type DatabaseService struct {
+    Model interface {}
+}
+
+
+func (v DatabaseService) Get (id int) (interface {}, error) {
+    ans := v.Model
+    if err := Db.Find(ans, id).Error; err != nil {
+        return nil, ErrBukiwishNotFound
+    }
+    return ans, nil
+}

@@ -25,11 +25,10 @@ type BukiwishService struct{}
 
 func (v BukiwishService) Get(id int) (*Bukiwish, error) {
     bukiwish := new(Bukiwish)
-
-    if err := Db.Find(bukiwish, id).Error; err != nil {
-        return nil, ErrBukiwishNotFound
-    }
-    return bukiwish, nil
+    service := DatabaseService{bukiwish}
+    ans, _ := service.Get(id)
+    ret := ans.(Bukiwish)
+    return &ret, nil
 }
 
 func (v BukiwishService) GetAll() (*[]*Bukiwish, error) {
